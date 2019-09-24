@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net"
 	"runtime"
+	"strings"
 	"sync"
 	"time"
 
@@ -231,11 +232,10 @@ func (s *Server) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg)
 		l := len(q[off:])
 		for i := 0; i < l; i++ {
 			b[i] = q[off+i]
-			// normalize the name for the lookup
-			if b[i] >= 'A' && b[i] <= 'Z' {
-				b[i] |= ('a' - 'A')
-			}
 		}
+
+		// normalize the name for the lookup
+		b = []byte(strings.ToLower(string(b)))
 
 		if h, ok := s.zones[string(b[:l])]; ok {
 			if r.Question[0].Qtype != dns.TypeDS {
