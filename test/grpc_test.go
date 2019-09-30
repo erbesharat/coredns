@@ -22,7 +22,7 @@ func TestGrpc(t *testing.T) {
 	}
 	defer g.Stop()
 
-	ctx, _ := context.WithTimeout(nil, 5*time.Second)
+	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 	conn, err := grpc.DialContext(ctx, tcp, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		t.Fatalf("Expected no error but got: %s", err)
