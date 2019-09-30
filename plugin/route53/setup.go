@@ -123,7 +123,7 @@ func setup(c *caddy.Controller, f func(*credentials.Credentials) route53iface.Ro
 
 		session, err := session.NewSession(&aws.Config{})
 		if err != nil {
-			return plugin.Error("route53", c.Errf("couldn't create aws session: %s", err.Error()))
+			return plugin.Error("route53", err)
 		}
 
 		providers = append(providers, &credentials.EnvProvider{}, sharedProvider, &ec2rolecreds.EC2RoleProvider{
